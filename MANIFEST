@@ -1,5 +1,8 @@
 Changes
 DMAC.pm
+examples/file
+examples/multiple-files
+examples/strings
 INSTALL
 LICENSE
 Makefile.PL

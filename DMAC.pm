@@ -8,7 +8,7 @@ use Crypt::CBC;
 use MIME::Base64;
 use Exporter;
 use vars qw($VERSION @EXPORT_OK @ISA);
-$VERSION = '1.1.2';
+$VERSION = '1.1.3';
 @ISA = ('Exporter');
 @EXPORT_OK = qw(dmac hexdigest base64digest);
 
@@ -40,7 +40,11 @@ sub dmac
 
     $cipher = $cipher=~/^Crypt::/ ? $cipher : "Crypt::$cipher";
     eval "require $cipher";
-    croak "Couldn't load $cipher: $@" if ($@);
+    if ($@) {
+        print "Can't load cipher $cipher.\n";
+        print "You must install $cipher first!\n";
+        exit 0;
+    }
 
     $cipher =~ s/^Crypt::// unless $cipher->can('blocksize');
 
@@ -85,32 +89,65 @@ Digest::DMAC
 
 =over 4
 
-    use Crypt::CBC;
     use Digest::DMAC qw(dmac hexdigest base64digest);
 
-    my $key = "jcd";
-    my $cipher = "Serpent";
-    my $data = "This is a test";
+    print "Enter key: ";
+    my $key = <STDIN>;
+    chomp $key;
 
-    my $mac = &dmac($key, $cipher, $data);
+    print "Enter cipher: ";
+    my $cipher = <STDIN>;
+    chomp $cipher;
+
+    print "Enter string: ";
+    my $str = <STDIN>;
+    chomp $str;
+
+    my $mac = dmac($key, $cipher, $str);
     print hexdigest($mac), "\n";
     print base64digest($mac), "\n";
 
 =head1 EXAMPLE 2
 
-    use Crypt::CBC;
     use Digest::DMAC qw(dmac hexdigest base64digest);
 
-    local $/ = undef;    # slurp whole file
-    $infile = "/path/to/file.pm";
+    print "Enter key: ";
+    my $key = <STDIN>;
+    chomp $key;
 
+    print "Enter cipher: ";
+    my $cipher = <STDIN>;
+    chomp $cipher;
+
+    print "Enter file: ";
+    my $infile = <STDIN>;
+    chomp $infile;
+    local $/ = undef;
     open F, $infile;
-    while (<F>) {
-        $mac1 = &dmac($key, $cipher, $_);
-    }
+    my $data = <F>;
 
-    print hexdigest($mac1), "\n";
-    print base64digest($mac1), "\n";
+    my $mac = dmac($key, $cipher, $data);
+    close F;
+    print hexdigest($mac), "\n";
+    print base64digest($mac), "\n";
+
+=head1 EXAMPLE 3
+
+    use Digest::DMAC qw(dmac hexdigest base64digest);
+
+    print "Enter key: ";
+    my $key = <STDIN>;
+    chomp $key;
+
+    print "Enter cipher: ";
+    my $cipher = <STDIN>;
+    chomp $cipher;
+    local $/ = undef;
+
+    while (<>) {
+        my $mac = dmac($key, $cipher, $_);
+        print hexdigest($mac), "\n";
+    }
 
 =head1 DESCRIPTION
 
