@@ -1,12 +1,14 @@
 use ExtUtils::MakeMaker;
 
 WriteMakefile (
+    'AUTHOR' => 'Julius C. Duque',
+    'ABSTRACT' => 'A MAC that uses an existing block cipher',
     'NAME' => 'Digest::DMAC',
     'VERSION_FROM' => 'DMAC.pm',
     'PREREQ_PM' => {'Crypt::CBC' => '2.08'},
     'LIBS' => [''],
     'DEFINE' => '',
     'INC' => '',
-    'dist' => {'COMPRESS' => 'bzip2 -9', 'SUFFIX' => 'bz2'}
-)
+    'dist' => {'COMPRESS' => 'gzip -9f', 'SUFFIX' => 'gz'}
+);
 
