@@ -8,7 +8,7 @@ use Crypt::CBC;
 use MIME::Base64;
 use Exporter;
 use vars qw($VERSION @EXPORT_OK @ISA);
-$VERSION = '1.1.3';
+$VERSION = '1.1.4';
 @ISA = ('Exporter');
 @EXPORT_OK = qw(dmac hexdigest base64digest);
 
@@ -85,9 +85,12 @@ __END__
 
 Digest::DMAC
 
-=head1 EXAMPLE 1
+=head1 REVISION
 
-=over 4
+Please use Digest::EMAC instead. EMAC is now the official name of
+Double CBC MAC.
+
+=head1 EXAMPLE 1
 
     use Digest::DMAC qw(dmac hexdigest base64digest);
 
@@ -151,9 +154,9 @@ Digest::DMAC
 
 =head1 DESCRIPTION
 
-This is B<Double MAC> (B<DMAC>), also known as B<Encrypted MAC>
-(B<EMAC>). Unlike B<HMAC>, which reuses an existing one-way hash
-function, such as B<MD5>, B<SHA-1> or B<RIPEMD-160>, DMAC reuses an
+This is B<Encrypted MAC> (B<EMAC>), also known as B<Double MAC>
+(B<DMAC>). Unlike B<HMAC>, which reuses an existing one-way hash
+function, such as B<MD5>, B<SHA-1> or B<RIPEMD-160>, EMAC reuses an
 existing block cipher to produce a secure B<message authentication
 code> (B<MAC>).
 
@@ -167,9 +170,9 @@ in the paper, ``CBC MAC for Real-Time Data Sources'' by Erez Petrank
 and Charles Rackoff. The security can be proved on the assumption that
 the underlying block cipher is pseudo-random.
 
-The performance and key-agility of DMAC are reasonable. DMAC is
+The performance and key-agility of EMAC are reasonable. EMAC is
 preferable for short messages because the block length is smaller
-compared to the schemes based on a hash function. DMAC is also chosen
+compared to the schemes based on a hash function. EMAC is also chosen
 as one of the NESSIE winners for Message Authentication Codes, along
 with B<UMAC>, B<TTMAC> and B<HMAC>. The current NESSIE specification
 chooses the B<AES> as block cipher.
@@ -189,7 +192,7 @@ The module B<Crypt::CBC> is required, plus any block cipher that is
 capable of returning its block size when queried. B<RC5> is not
 supported, however, because its block size is variable.
 
-B<MIME::Base64> is required if a base64 encoding of output is desired.
+B<MIME::Base64> is also required for base64 encoding of output.
 
 =head1 LICENSE
 
