@@ -8,7 +8,7 @@ use Crypt::CBC;
 use MIME::Base64;
 use Exporter;
 use vars qw($VERSION @EXPORT_OK @ISA);
-$VERSION = '1.1.1';
+$VERSION = '1.1.2';
 @ISA = ('Exporter');
 @EXPORT_OK = qw(dmac hexdigest base64digest);
 
@@ -83,42 +83,34 @@ Digest::DMAC
 
 =head1 EXAMPLE 1
 
-use Crypt::CBC;
+=over 4
 
-use Digest::DMAC qw(dmac hexdigest base64digest);
+    use Crypt::CBC;
+    use Digest::DMAC qw(dmac hexdigest base64digest);
 
-my $key = "jcd";
+    my $key = "jcd";
+    my $cipher = "Serpent";
+    my $data = "This is a test";
 
-my $cipher = "Serpent";
-
-my $data = "This is a test";
-
-my $mac = &dmac($key, $cipher, $data);
-
-print hexdigest($mac), "\n";
-
-print base64digest($mac), "\n";
+    my $mac = &dmac($key, $cipher, $data);
+    print hexdigest($mac), "\n";
+    print base64digest($mac), "\n";
 
 =head1 EXAMPLE 2
 
-use Crypt::CBC;
+    use Crypt::CBC;
+    use Digest::DMAC qw(dmac hexdigest base64digest);
 
-use Digest::DMAC qw(dmac hexdigest base64digest);
+    local $/ = undef;    # slurp whole file
+    $infile = "/path/to/file.pm";
 
-local $/ = undef;    # slurp whole file
+    open F, $infile;
+    while (<F>) {
+        $mac1 = &dmac($key, $cipher, $_);
+    }
 
-$infile = "../DMAC.pm";
-
-open F, $infile;
-
-while (<F>) {
-
-    $mac1 = &dmac($key, $cipher, $_);
-}
-
-print hexdigest($mac1), "\n";
-
-print base64digest($mac1), "\n";
+    print hexdigest($mac1), "\n";
+    print base64digest($mac1), "\n";
 
 =head1 DESCRIPTION
 
@@ -147,8 +139,8 @@ chooses the B<AES> as block cipher.
 
 Also specified in the paper by Petrank and Rackoff is the construction
 of two encryption keys from a single key. The first subkey is derived
-by encrypting "0" (zero) using the original secret key. To produce the
-second subkey, a "1" (one) is encrypted using the original secret key.
+by encrypting `0' (zero) using the original secret key. To produce the
+second subkey, a `1' (one) is encrypted using the original secret key.
 The first subkey is used in CBC mode to encrypt the entire message. The
 last ciphertext block is then re-encrypted with the second subkey. The
 result is a MAC whose length is equal to the block length of the cipher

@@ -7,6 +7,6 @@ WriteMakefile (
     'LIBS' => [''],
     'DEFINE' => '',
     'INC' => '',
-    'dist' => {'COMPRESS' => 'gzip -9f', 'SUFFIX' => 'gz'}
+    'dist' => {'COMPRESS' => 'bzip2 -9', 'SUFFIX' => 'bz2'}
 )
 

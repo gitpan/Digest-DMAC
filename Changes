@@ -1,0 +1,9 @@
+1.1.2   2003-05-15
+        Slight format-correction of doc
+
+1.1.1   2003-05-14
+        Initial MAC is wrongfully taken as the whole ciphertext; should
+        be the last block only. Fixed.
+
+1.0     Initial release
+
