@@ -8,7 +8,7 @@ use Crypt::CBC;
 use MIME::Base64;
 use Exporter;
 use vars qw($VERSION @EXPORT_OK @ISA);
-$VERSION = '1.1';
+$VERSION = '1.1.1';
 @ISA = ('Exporter');
 @EXPORT_OK = qw(dmac hexdigest base64digest);
 
@@ -79,7 +79,7 @@ __END__
 
 =head1 NAME
 
-Digest::DMAC 1.0
+Digest::DMAC
 
 =head1 EXAMPLE 1
 
@@ -161,6 +161,11 @@ capable of returning its block size when queried. B<RC5> is not
 supported, however, because its block size is variable.
 
 B<MIME::Base64> is required if a base64 encoding of output is desired.
+
+=head1 LICENSE
+
+This program is free software; you can redistribute it or modify it
+under the terms of the GNU General Public License. 
 
 =head1 AUTHOR
 
